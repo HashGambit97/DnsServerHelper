@@ -96,8 +96,7 @@ function Update-DnsServerResourceRecord {
                     if ( $PSCmdlet.ShouldProcess("Name: $($Record.HostName), Address: $($Record.RecordData.IPv4Address)", 'Remove A record.') ) {
                         Remove-DnsServerResourceRecord -ZoneName $ZoneName -InputObject $Record @SetParams
                     }
-                }
-                else {
+                } else {
                     Write-Verbose -Message "An 'A' record for '$($Record.HostName)' with address '$($Record.RecordData.IPv4Address)' already exists."
                     $ForwardExists = $true
                 }
@@ -126,23 +125,21 @@ function Update-DnsServerResourceRecord {
                         if ( $PSCmdlet.ShouldProcess("Zone: $PtrZoneName, Record: $($Record.HostName), PtrDomainName: $($Record.RecordData.PtrDomainName)", 'Remove PTR record.') ) {
                             Remove-DnsServerResourceRecord -ZoneName $PtrZoneName -InputObject $Record -Force @SetParams
                         }
-                    }
-                    else {
-                        Write-Verbose -Message "A 'PTR' record for '$($Record.HostName)' with IP address '$($Record.RecordData.PtrDomainName)' already exists."
+                    } else {
+                        Write-Verbose -Message "A 'PTR' record for address '$($Record.HostName)' with hostname '$($Record.RecordData.PtrDomainName)' already exists."
                         $ReverseExists = $true
                     }
                 } # foreach
             } # if ReverseRecordByIp
 
-            $ReverseRecordByName = Get-DnsServerResourceRecord -ZoneName $PtrZoneName -RRType Ptr @GetParams | Where-Object { $_.RecordData.PtrDomainName -match "^$($Name)\."}
+            $ReverseRecordByName = Get-DnsServerResourceRecord -ZoneName $PtrZoneName -RRType Ptr @GetParams | Where-Object { $_.RecordData.PtrDomainName -match "^$($Name)\." }
             if ( $ReverseRecordByName ) {
                 foreach ( $Record in $ForwardRecords ) {
                     if ( $Record.RecordData.PtrDomainName -ne "$Name.$ZoneName." ) {
                         if ( $PSCmdlet.ShouldProcess("Zone: $PtrZoneName, Record: $($Record.HostName), PtrDomainName: $($Record.RecordData.PtrDomainName)", 'Remove PTR record.') ) {
                             Remove-DnsServerResourceRecord -ZoneName $PtrZoneName -InputObject $Record -Force @SetParams
                         }
-                    }
-                    else {
+                    } else {
                         Write-Verbose -Message "PTR record for '$($Record.HostName)' with record date '$($Record.RecordData.PtrDomainName)' already exists."
                         $ReverseExists = $true
                     }

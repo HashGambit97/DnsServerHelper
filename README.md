@@ -1,9 +1,9 @@
-Collection of function to help manage Windows DNS servers.
 
-## Installation
+# DnsServerHelper
 
-Install from PSGallery
+Set of functions to support Microsoft DNS Server management.
 
+## Make it yours
 ```powershell
 PS> Install-Module -Name PoshDnsTools
 ```
