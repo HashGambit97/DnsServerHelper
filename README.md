@@ -5,7 +5,7 @@ Set of functions to support Microsoft DNS Server management.
 
 ## Make it yours
 ```powershell
-PS> Install-Module -Name PoshDnsTools
+PS> Install-Module -Name DnsServerHelper
 ```
 
 ## Getting Started
@@ -13,5 +13,5 @@ PS> Install-Module -Name PoshDnsTools
 Get a list of available commands
 
 ```powershell
-PS> Get-Command -Module PoshDnsTools
+PS> Get-Command -Module DnsServerHelper
 ```
